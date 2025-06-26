@@ -1,5 +1,16 @@
 <?php require_once("func.php"); ?>
 
+<?php
+    $userLink = $_POST['user-link'];
+    $shortLink = "";
+
+    $isValid = false;
+    if(!empty($userLink) &&  (filter_var($userLink, FILTER_VALIDATE_URL) !== false)){
+        $shortLink = createShortLink(htmlspecialchars($userLink));
+        $isValid = true;
+    }
+?>
+
 <!doctype html>
 <html lang="ru">
 <head>
@@ -15,10 +26,14 @@
     <div class="container mt-3">
         <h3>Сокращенная ссылка</h3>
         <div class="input-group">
-            <input type="text" class="form-control" id="textToCopy" value="<?php echo createShortLink(htmlspecialchars( $_POST['user-link'])); ?>" readonly>
-            <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="button" onclick="copyText()">Копировать</button>
-            </div>
+            <?php if($isValid): ?>
+                <input type="text" class="form-control" id="textToCopy" value="<?= $shortLink?>" readonly>
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" onclick="copyText()">Копировать</button>
+                </div>
+            <?php else: ?>
+                <p>Ошибка: невалидная ссылка</p>
+            <?php endif; ?>
         </div>
         <a href="/createlink.php">на главную</a>
 

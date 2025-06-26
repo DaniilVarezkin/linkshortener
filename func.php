@@ -31,9 +31,10 @@ function generateNewName() : string
 
 function createShortLink(string $link) : string
 {
+    global $BASE_URL;
     $newName = generateNewName();
     addNewShortLinkMap($link, $newName);
-    $shortLink = LINK_BASE_URL.'?q='.$newName;
+    $shortLink = $BASE_URL.'?q='.$newName;
 
     return $shortLink;
 }
